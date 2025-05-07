@@ -1,6 +1,7 @@
 import {body,validationResult} from 'express-validator'
 import Constants from '../../../constants'
 import { Request,Response,NextFunction } from 'express'
+import { asyncHandler } from './AsyncHandler'
 
 export const signUpValidationRules = ()=>{ //validation rules
     const constants = new Constants()
@@ -13,9 +14,9 @@ export const signUpValidationRules = ()=>{ //validation rules
     ]
 }
 
-export const validate = (
-    req: Request, res: Response, next: NextFunction
-)=>{
+export const validate  = asyncHandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+        
     const errors = validationResult(req)  //validates req upon the rules defined above
 
     if(errors.isEmpty()){
@@ -27,4 +28,5 @@ export const validate = (
 
     return res.status(422).json({errors: extractedErrors})
 
-}
+    }
+) 

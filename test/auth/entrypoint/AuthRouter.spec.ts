@@ -55,7 +55,7 @@ describe('AuthRouter',()=>{
     it(constants.createUserAndReturnToken, async ()=>{
         let name = 'Haseeb'
         let email = 'haseeb@mail.com'
-        let password = '123'
+        let password = '12345'
         let type ='email'
 
         await request(app)
@@ -66,6 +66,17 @@ describe('AuthRouter',()=>{
         .expect(200)
         .then((res)=>{
             expect(res.body.auth_token).to.not.be.empty
+        })
+    })
+
+    it(constants.returnErrors, async ()=>{
+        await request(app)
+        .post('/auth/signup')
+        .send({email: '',password: user.password, type: 'email', name: user.name})
+        .set('Accept','application/json')
+        .expect('Content-type',/json/)
+        .expect(422).then((res)=>{
+            expect(res.body.errors).to.not.be.empty
         })
     })
 })

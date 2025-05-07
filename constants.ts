@@ -11,4 +11,5 @@ export default class Constants{
     public readonly invalidEmail = 'Invalid Email'
     public readonly passwordRequired = 'Password Required (Min 5 characters)'
     public readonly authTypeRequired = 'Auth Type Required'
+    public readonly returnErrors = 'should return errors'
 }

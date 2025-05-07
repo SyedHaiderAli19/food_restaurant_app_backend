@@ -5,6 +5,7 @@ import IPasswordService from '../services/IPasswordService';
 import AuthController from './AuthController';
 import SignInUseCase from '../usecases/SignInUseCase';
 import SignUpUseCase from '../usecases/SignUpUseCase';
+import { signUpValidationRules, validate } from '../helpers/Validators';
 
 export default class AuthRouter {
     public static configure(authRepository: IAuthRepository,
@@ -19,7 +20,10 @@ export default class AuthRouter {
             passwordService
         )
         router.post('/signin',(req,res)=> controller.signIn(req,res)) //signin router 
-        router.post('/signup',(req,res)=>controller.signUp(req,res)) //signup router
+
+        router.post('/signup',signUpValidationRules(),validate,
+        (req: express.Request,res: express.Response)=>
+            controller.signUp(req,res)) //signup router
         return router
     }
 
