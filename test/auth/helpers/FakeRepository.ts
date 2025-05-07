@@ -7,22 +7,6 @@ export default class FakeRepository implements IAuthRepository {
 
     public users = [
         {
-            email: 'hai@gmail.com',
-            id: '112',
-            name: 'Ken',
-            password: 'abddcd',
-            type: 'email',
-
-        },
-        {
-            email: 'haidd@gmail.com',
-            id: '11222',
-            name: 'Keeeen',
-            password: '',
-            type: 'google',
-
-        },
-        {
         email: 'h@gmail.com',
         name: 'Abc',
         password:'def',
@@ -32,14 +16,9 @@ export default class FakeRepository implements IAuthRepository {
     ]
 
     public async find(email: string):Promise<User>{
-        console.log('fake repo ki email jo find krni hai',email)
         const user = this.users.find((x)=> {
-            console.log("X madarchod: ", x.email);
-            console.log("Email madarchod: ", email);
             return x.email === email
         })
-
-        console.log('Major Madarchod',user)
 
         if(!user){     
         throw new Error(new Constants().userNotFound)
@@ -59,12 +38,12 @@ export default class FakeRepository implements IAuthRepository {
             const min = 1000
             const id = (Math.floor(Math.random() * (+max - +min)) + +min).toString()
             const bcrypt = new BcryptPasswordService();
-            const haedPass = await bcrypt.hash(password)
+            const hashPass = await bcrypt.hash(password)
             this.users.push({
                 email:email,
                 id: id,
                 name: name,
-                password: haedPass,
+                password: hashPass,
                 type: type
 
             })

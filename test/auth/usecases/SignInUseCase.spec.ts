@@ -6,14 +6,18 @@ import IPasswordService from '../../../src/auth/services/IPasswordService'
 import FakeRepository from '../helpers/FakeRepository'
 import FakePasswordService from '../helpers/FakePasswordService'
 import chaiAsPromised from 'chai-as-promised'
+import Constants from '../../../constants'
 
 chai.use(chaiAsPromised)
+
 
 
 describe('SignInUseCase', () =>{
     let sut: SignInUseCase
     let repository: IAuthRepository
     let passwordService : IPasswordService
+
+    const constants = new Constants()
 
 
     const user = {
@@ -30,7 +34,7 @@ describe('SignInUseCase', () =>{
         sut= new SignInUseCase(repository, passwordService)
     })
 
-    it('should throw an error when user is not found', async () => {
+    it(constants.throwErrorWhenUserNotFound, async () => {
         const user ={
             email: 'wrong@email.com',
             password: '1234'
@@ -38,6 +42,6 @@ describe('SignInUseCase', () =>{
 
         //assert
 
-        await expect(sut.execute(user.email,user.password)).to.be.rejectedWith("User not found");
+        await expect(sut.execute(user.email,user.password)).to.be.rejectedWith(constants.userNotFound);
     })
 })

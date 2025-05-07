@@ -18,16 +18,12 @@ import SignUpUseCase from "../usecases/SignUpUseCase";
         public async signIn(req:express.Request, res: express.Response): Promise<any>{
             try{
                 const {email,password}= req.body
-                console.log(email,password)
                 return this.signInUseCase.execute(email,password)
                 .then((id: string) => {
-                    console.log("User id in controller: ", id);
                     const jwtToken =  this.tokenService.encode(id);
-                    console.log("Auth token: ", jwtToken)
                     res.status(200).json({auth_token: jwtToken})
                 })
                 .catch((err: Error)=> {
-                    console.log("Error in authController: ", err);
                     res.status(404).json({error:err.message})
                 })
 
@@ -45,16 +41,12 @@ import SignUpUseCase from "../usecases/SignUpUseCase";
         public async signUp(req:express.Request, res: express.Response): Promise<any>{
             try{
                 const {name,email,password,authType}= req.body
-                console.log(email,password)
                 return this.signUpUseCase.execute(name,password,authType,email)
                 .then((id: string) => {
-                    console.log("User id in controller: ", id);
                     const jwtToken =  this.tokenService.encode(id);
-                    console.log("Auth token: ", jwtToken)
                     res.status(200).json({auth_token: jwtToken})
                 })
                 .catch((err: Error)=> {
-                    console.log("Error in authController: ", err);
                     res.status(404).json({error:err.message})
                 })
 

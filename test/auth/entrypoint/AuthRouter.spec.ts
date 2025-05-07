@@ -7,6 +7,7 @@ import AuthRouter from "../../../src/auth/entrypoint/AuthRouter"
 import request from 'supertest'
 import { expect } from "chai"
 import FakePasswordService from "../helpers/FakePasswordService"
+import Constants from "../../../constants"
 
 
 describe('AuthRouter',()=>{
@@ -19,6 +20,7 @@ describe('AuthRouter',()=>{
         password:'def',
         type: 'google'
     }
+    const constants = new Constants()
 
     
 
@@ -28,6 +30,8 @@ describe('AuthRouter',()=>{
         let tokenService = new JwtTokenService('privateKey')
         let passwordService = new FakePasswordService()
 
+        
+
 
         app=express()
         app.use(express.json())
@@ -35,12 +39,29 @@ describe('AuthRouter',()=>{
         app.use('/auth',AuthRouter.configure(repository,tokenService,passwordService))
     })
 
-    it('should return 404 when the user is not found', async ()=>{
+    it(constants.throw404WhenUserNotFound, async ()=>{
         await request(app).post('/auth/signin').send({}).expect(404) 
     })
 
-    it('should return 200 and token when user is found',async()=>{
+    it(constants.return200AndTokenWhenUserIsFound,async()=>{
         await request(app).post('/auth/signin').send({email: user.email,password: user.password}).set('Accept','application/json')
+        .expect('Content-type',/json/)
+        .expect(200)
+        .then((res)=>{
+            expect(res.body.auth_token).to.not.be.empty
+        })
+    })
+
+    it(constants.createUserAndReturnToken, async ()=>{
+        let name = 'Haseeb'
+        let email = 'haseeb@mail.com'
+        let password = '123'
+        let type ='email'
+
+        await request(app)
+        .post('/auth/signup')
+        .send({email: email, password:password, name: name, type: type})
+        .set('Accept','application/json')
         .expect('Content-type',/json/)
         .expect(200)
         .then((res)=>{
