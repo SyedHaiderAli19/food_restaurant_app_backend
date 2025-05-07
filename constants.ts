@@ -7,4 +7,8 @@ export default class Constants{
     public readonly throw404WhenUserNotFound = 'should return 404 when the user is not found'
     public readonly return200AndTokenWhenUserIsFound = 'should return 200 and token when user is found'
     public readonly createUserAndReturnToken = 'should create a user and return a token'
+    public readonly nameRequired = 'Name Required'
+    public readonly invalidEmail = 'Invalid Email'
+    public readonly passwordRequired = 'Password Required (Min 5 characters)'
+    public readonly authTypeRequired = 'Auth Type Required'
 }
