@@ -16,7 +16,7 @@ export const signUpValidationRules = ()=>{ //validation rules
 
  export const signInValidationRules = ()=>{
     return [
-        body('name',constants.nameRequired).notEmpty().if(body('type').not().equals('email')), //name required when type is not email
+        body('name',constants.nameRequired).if(body('type').not().equals('email')).notEmpty(), //name required when type is not email
         body('email',constants.invalidEmail).not().isEmpty().isEmail().normalizeEmail(), 
         body('type',constants.authTypeRequired).notEmpty(),
         body('password',constants.passwordRequired).if(body('type').equals('email')).notEmpty().isLength({min: 5}), //password should not be empty if the type is email and also should be of at least 5 characters
