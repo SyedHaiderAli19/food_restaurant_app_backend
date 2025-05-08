@@ -17,8 +17,8 @@ import SignUpUseCase from "../usecases/SignUpUseCase";
 
         public async signIn(req:express.Request, res: express.Response): Promise<any>{
             try{
-                const {email,password}= req.body
-                return this.signInUseCase.execute(email,password)
+                const {email,password,type,name}= req.body
+                return this.signInUseCase.execute(name,email,password,type)
                 .then((id: string) => {
                     const jwtToken =  this.tokenService.encode(id);
                     res.status(200).json({auth_token: jwtToken})
@@ -40,8 +40,8 @@ import SignUpUseCase from "../usecases/SignUpUseCase";
 
         public async signUp(req:express.Request, res: express.Response): Promise<any>{
             try{
-                const {name,email,password,authType}= req.body
-                return this.signUpUseCase.execute(name,password,authType,email)
+                const {name,email,password,type}= req.body
+                return this.signUpUseCase.execute(name,password,type,email)
                 .then((id: string) => {
                     const jwtToken =  this.tokenService.encode(id);
                     res.status(200).json({auth_token: jwtToken})

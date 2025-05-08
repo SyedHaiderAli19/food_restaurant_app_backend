@@ -3,16 +3,26 @@ import Constants from '../../../constants'
 import { Request,Response,NextFunction } from 'express'
 import { asyncHandler } from './AsyncHandler'
 
+const constants = new Constants()
 export const signUpValidationRules = ()=>{ //validation rules
-    const constants = new Constants()
     return [
         body('name',constants.nameRequired).notEmpty(),
         body('email',constants.invalidEmail).notEmpty().isEmail().normalizeEmail(),
         body('type',constants.authTypeRequired).notEmpty(),
-        body('password',constants.passwordRequired).notEmpty()
-        .if(body('type').equals('email')).isLength({min:5}),
+        body('password',constants.passwordRequired).notEmpty().if(body('type').equals('email')).isLength({min:5}),
     ]
 }
+
+
+ export const signInValidationRules = ()=>{
+    return [
+        body('name',constants.nameRequired).notEmpty().if(body('type').not().equals('email')), //name required when type is not email
+        body('email',constants.invalidEmail).not().isEmpty().isEmail().normalizeEmail(), 
+        body('type',constants.authTypeRequired).notEmpty(),
+        body('password',constants.passwordRequired).notEmpty().if(body('type').equals('email').isLength({min: 5})), //password should not be empty if the type is email and also should be of at least 5 characters
+    ]
+    
+ }
 
 export const validate  = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
