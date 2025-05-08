@@ -1,6 +1,6 @@
 export default class Constants{
     public readonly userNotFound: string = 'User not found'  
-    public readonly invalidUserNamePassword: string = 'Invalid email or password'
+    public readonly invalidEmailPassword: string = 'Invalid email or password'
     public readonly invalidToken : string = 'Invalid Token'
     public readonly  userAlreadyExists : string = 'User already exists'
     public readonly throwErrorWhenUserNotFound: string = 'should throw an error when user is not found' 
@@ -12,4 +12,5 @@ export default class Constants{
     public readonly passwordRequired = 'Password Required (Min 5 characters)'
     public readonly authTypeRequired = 'Auth Type Required'
     public readonly returnErrors = 'should return errors'
+    public readonly accountAlreadyExists = 'Account already exists, log in with email and password'
 }

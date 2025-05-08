@@ -10,26 +10,30 @@ export default class AuthRepository implements IAuthRepository {
    public async find(email: string): Promise<User> {
         const users = this.client.model<UserModel>('user',UserSchema) //User Document (collection) from the database
 
-        const user = await users.findOne({email: email}) //finds the user with their email
-        console.log("User: ", user);
+        const user = await users.findOne({email: email.toLowerCase()}) //finds the user with their email in lower case
 
-        if(!user){
+        if(!user){ //if user doesn't exists
             return Promise.reject(new Constants().userNotFound)
         }
 
-        return new User(user.id, user.name, user.email,user.password,user.type) //returns the found user
+        return new User(user.id, user.name, user.email,user.password ?? '',user.type) //returns the found user
     }
 
 
-    public async add(name: string, email: string, passwordHash: string, type: string): Promise<string> { //saves user to the DB
-        const userModel = this.client.model<UserModel>('user',UserSchema)
+    public async add(name: string, email: string, type: string, passwordHash?: string): Promise<string> { //saves user to the DB
+        const userModel = this.client.model<UserModel>('user',UserSchema) //creates a model schema of user
 
-        const savedUser = await userModel.create({
+        const savedUser = new userModel({ 
             type: type,
             name: name,
-            email: email,
-            password: passwordHash
+            email: email.toLowerCase(),
         })
+
+        if(passwordHash){
+            savedUser.password = passwordHash
+        }
+
+        savedUser.save()
 
         return savedUser.id
 
