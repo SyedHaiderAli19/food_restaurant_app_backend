@@ -28,9 +28,11 @@ import SignUpUseCase from "../usecases/SignUpUseCase";
                 })
 
             }
-            catch(e){
-                return res.status(400).json({error:e})
-
+            catch(e : any){
+                if(e.status ||  e.status >= 400 && e.status <=499){
+                    return res.status(e.status).json({error:e.message})
+                }
+                return res.status(500).json({error: e.message})
             }
 
         }
@@ -51,9 +53,11 @@ import SignUpUseCase from "../usecases/SignUpUseCase";
                 })
 
             }
-            catch(e){
-                return res.status(400).json({error:e})
-
+            catch(e : any){
+                if(e.status ||  e.status >= 400 && e.status <=499){
+                    return res.status(e.status).json({error:e.message})
+                }
+                return res.status(500).json({error: e.message})
             }
 
         }

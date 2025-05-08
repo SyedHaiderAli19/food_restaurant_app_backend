@@ -13,4 +13,5 @@ export default class Constants{
     public readonly authTypeRequired = 'Auth Type Required'
     public readonly returnErrors = 'should return errors'
     public readonly accountAlreadyExists = 'Account already exists, log in with email and password'
+    public readonly listeningPort = 'Listening on Port'
 }

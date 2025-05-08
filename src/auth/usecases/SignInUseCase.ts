@@ -23,7 +23,7 @@ export default class SignInUseCase{
             const user = await this.authRepository.find(email).catch((_)=>null)
 
             if(!user || !(await this.passwordService.compare(password,user.password))){ //If user not found or the password is not equal
-                return Promise.reject(this.constants.invalidEmailPassword)
+                throw new Error(this.constants.invalidEmailPassword)
             }
 
             return user.id 
@@ -33,7 +33,7 @@ export default class SignInUseCase{
             const user = await this.authRepository.find(email).catch((_)=> null)
 
             if(user && user.type === 'email'){ // if user exists in the repo and the user type is email, we don't want them to sign in using google 
-                return Promise.reject(this.constants.accountAlreadyExists)
+                throw new Error(this.constants.accountAlreadyExists)
             }
 
             if(user){ //if user exists then simply return it's id

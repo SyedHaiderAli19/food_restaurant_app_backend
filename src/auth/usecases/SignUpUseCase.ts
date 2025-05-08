@@ -8,19 +8,28 @@ export default class SignUpUseCase {
     public async execute(
         name: string,
         password:string,
-        authType: string,
+        type: string,
         email: string,
     ):Promise<string>{
         const user = await this.authRepository.find(email).catch((_)=>null) //if user exists the user id is returned else null is returned via the catch 
         if(user){
-            return Promise.reject(new Constants().userAlreadyExists) //Incase of that user already existing in the repo, we don't want the same user again as it already exists
+            throw new Error(new Constants().userAlreadyExists) //Incase of that user already existing in the repo, we don't want the same user again as it already exists
+        }
+
+        let hashPass
+
+        if(password){
+            hashPass =  await this.passwordService.hash(password)
+        }
+        else{
+            hashPass= undefined
         }
 
         const userId = await this.authRepository.add( // if not then add the user details to the repo
             name,
             email,
-            await this.passwordService.hash(password),
-            authType
+            type,
+            hashPass
         )
 
         return userId; // return the user id from the add method

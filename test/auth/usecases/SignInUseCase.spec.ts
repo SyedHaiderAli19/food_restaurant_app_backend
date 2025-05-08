@@ -37,11 +37,13 @@ describe('SignInUseCase', () =>{
     it(constants.throwErrorWhenUserNotFound, async () => {
         const user ={
             email: 'wrong@email.com',
-            password: '1234'
+            password: '1234',
+            type: 'email',
+            name: 'wrong'
         }
 
         //assert
 
-        await expect(sut.execute(user.email,user.password)).to.be.rejectedWith(constants.userNotFound);
+        await expect(sut.execute(user.name,user.email,user.password,user.type)).to.be.rejectedWith(constants.userNotFound);
     })
 })
