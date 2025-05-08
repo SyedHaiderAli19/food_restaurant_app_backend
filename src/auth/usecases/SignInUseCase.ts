@@ -10,21 +10,13 @@ export default class SignInUseCase{
         }
 
         constants  = new Constants();
-        
-        public async execute(email: string, password: string): Promise<string> {
-            const user = await this.authRepository.find(email);
-            
-            if (!user) {
-                throw new Error(this.constants.userNotFound); 
-            }
 
-            const isPasswordValid = await this.passwordService.compare(password, user.password);
-            if (!isPasswordValid) {
-                throw new Error(this.constants.invalidEmailPassword); 
-            }
-        
-            return user.id;
-            
+        public async execute(name: string,email: string, password: string,type: string): Promise<string> { //execute the sign in functionality 
+            if(type ==='email'){
+                return this.emailLogin(email,password) // if type is email then login via email
+            }            
+
+            return this.oauthLogin(name,email,type) //else login via OAuth (Google)
         }
 
         private async emailLogin(email: string, password: string){
