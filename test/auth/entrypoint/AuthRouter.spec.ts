@@ -8,6 +8,8 @@ import request from 'supertest'
 import { expect } from "chai"
 import FakePasswordService from "../helpers/FakePasswordService"
 import Constants from "../../../constants"
+import TokenValidator from "../../../src/auth/helpers/TokenValidator"
+import RedisTokenStore from "../../../src/auth/data/services/RedisTokenStore"
 
 
 describe('AuthRouter',()=>{
@@ -29,6 +31,9 @@ describe('AuthRouter',()=>{
         repository.add(user.name,user.email,user.password,user.type)
         let tokenService = new JwtTokenService('privateKey')
         let passwordService = new FakePasswordService()
+        let redisClient = 
+        let tokenStore = new RedisTokenStore(redisClient)
+        let tokenValidator = new TokenValidator(tokenService, tokenStore)
 
         
 

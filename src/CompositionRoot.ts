@@ -4,17 +4,19 @@ import JwtTokenService from "./auth/data/services/JwtTokenService"
 import BcryptPasswordService from "./auth/data/services/BcryptPasswordService"
 import AuthRouter from "./auth/entrypoint/AuthRouter"
 import RedisTokenStore from "./auth/data/services/RedisTokenStore"
-import redis from "redis"
+import { createClient, RedisClientType } from "redis"
 import TokenValidator from "./auth/helpers/TokenValidator"
 
 export default class CompositionRoot{
 
     private static client: mongoose.Mongoose
-    private static redisClient : redis.RedisClientType
+    private static redisClient: RedisClientType
 
-    public static configure(){
+    public static async configure(){
         this.client = new mongoose.Mongoose()
-        this.redisClient = redis.createClient()
+        this.redisClient = createClient()
+        this.redisClient.on('error', (err) => console.error('Redis Client Error', err));
+        await this.redisClient.connect();
         const connectionString = encodeURI(process.env.FOOD_RESTAURANT_DB as string)
         this.client.connect(connectionString)
     }

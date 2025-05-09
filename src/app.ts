@@ -17,4 +17,4 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use('/auth',CompositionRoot.authRouter())
 
-app.listen(PORT,()=> console.log(constants.listeningPort, PORT))
+app.listen(PORT,()=> console.log(constants.listeningPort,PORT))
