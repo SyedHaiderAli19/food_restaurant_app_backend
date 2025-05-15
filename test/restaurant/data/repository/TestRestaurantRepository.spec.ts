@@ -39,4 +39,29 @@ describe("Test Restaurant Repository ", () => {
       expect(result.data.length).eq(2);
     });
   });
+
+  describe("findOne", () => {
+    var insertedId = "";
+    beforeEach(async () => {
+      const docs = await prepareDB(client);
+
+      insertedId = docs[0].id;
+    });
+
+    afterEach(async () => {
+      await cleanUpDB(client);
+    });
+
+    it("should return the found restaurant based on the ID", async () => {
+      const result = await sut.findOne(insertedId);
+
+      expect(result.id).eq(insertedId);
+    });
+
+    it("should return error when incorrect Id", async () => {
+      const result = await sut.findOne("").catch((err) => {
+        expect(err).to.not.be.empty;
+      });
+    });
+  });
 });

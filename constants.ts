@@ -21,5 +21,6 @@ export default class Constants {
   public readonly listeningPort = "Listening on Port: ";
   public readonly signOutSuccess = "Successfully signed out";
   public readonly authHeaderRequired = "Authorization Header Required";
-  public readonly restaurantsNotFound = "Restaurants Not Found";
+  public readonly restaurantsNotFound = "No Restaurant Found";
+  public readonly noMenuFound = "No Menu Found";
 }
