@@ -3,7 +3,7 @@ import paginate from "mongoose-paginate-v2";
 import LocationModel from "../../domain/LocationModel";
 import AddressModel from "../../domain/AddressModel";
 
-export interface Restaurant extends mongoose.Document {
+export interface RestaurantDataModel extends mongoose.Document {
   name: string;
   type: string;
   rating: number;
@@ -12,7 +12,8 @@ export interface Restaurant extends mongoose.Document {
   address: AddressModel;
 }
 
-export interface RestaurantModel extends mongoose.PaginateModel<Restaurant> {}
+export interface Restaurant
+  extends mongoose.PaginateModel<RestaurantDataModel> {}
 
 const pointSchema = new mongoose.Schema({
   type: {
@@ -49,4 +50,4 @@ const RestaurantSchema = new mongoose.Schema({
 
 RestaurantSchema.plugin(paginate);
 
-export default RestaurantSchema
+export default RestaurantSchema;
