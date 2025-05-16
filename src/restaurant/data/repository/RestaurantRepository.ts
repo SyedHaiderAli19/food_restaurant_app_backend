@@ -19,7 +19,7 @@ import MenuItemModel from "../../domain/MenuItemModel";
 
 export default class RestaurantRepository implements IRestaurantRepository {
   constructor(private readonly client: mongoose.Mongoose) {}
-  
+
   public async findOne(id: string): Promise<RestaurantModel> {
     //model set-up
     const model = this.client.model<RestaurantDataModel>(

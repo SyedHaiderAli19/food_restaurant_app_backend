@@ -14,6 +14,7 @@
     "@types/chai": "^5.2.1",
     "@types/chai-as-promised": "^8.0.2",
     "@types/express": "^5.0.1",
+    "@types/faker": "^6.6.8",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/mocha": "^10.0.10",
     "@types/mongoose": "^5.11.96",
@@ -28,11 +29,13 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.8.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
+    "faker": "^6.6.6",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.14.1",
     "mongoose-paginate-v2": "^1.9.0",

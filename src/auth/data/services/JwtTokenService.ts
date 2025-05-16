@@ -1,27 +1,24 @@
 import Constants from "../../../../constants";
 import ITokenService from "../../services/ITokenService";
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
-export default class JwtTokenService implements ITokenService{
-    constructor(private readonly privateKey: string){}
+export default class JwtTokenService implements ITokenService {
+  constructor(private readonly privateKey: string) {}
 
-    encode(payload: string | object): string | object {
-        let token = jwt.sign({data:payload}, this.privateKey,{
-            issuer: 'com.foodrestaurant.app',
-            expiresIn: '1h',
+  encode(payload: string | object): string | object {
+    let token = jwt.sign({ data: payload }, this.privateKey, {
+      issuer: "com.foodrestaurant.app",
+      expiresIn: "1h",
+    });
 
-        })
-
-        return token
+    return token;
+  }
+  decode(token: string): string | Error {
+    try {
+      const decoded = jwt.verify(token, this.privateKey) as { data: string };
+      return decoded.data;
+    } catch (e) {
+      return new Error(new Constants().invalidToken);
     }
-    decode(token: string): string | object {
-         try{
-            const decoded = jwt.verify(token,this.privateKey)
-            return decoded
-        }
-        catch(e){
-            return new Error(new Constants().invalidToken)
-        }
-    }
-
+  }
 }
