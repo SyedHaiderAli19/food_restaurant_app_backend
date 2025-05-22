@@ -23,10 +23,7 @@ const pointSchema = new mongoose.Schema({
     required: true,
   },
   coordinates: {
-    type: {
-      longitude: { type: Number },
-      latitude: { type: Number },
-    },
+    type: [Number],
     required: true,
   },
 });
@@ -39,6 +36,7 @@ const RestaurantSchema = new mongoose.Schema({
   location: {
     type: pointSchema,
     index: "2dsphere",
+    required: true,
   },
   address: {
     street: { type: String, required: true },

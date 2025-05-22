@@ -79,7 +79,7 @@ export default class RestaurantController {
               restaurants: pageable.data,
             })
         )
-        .catch((e) => void res.status(404).json({ error: e }));
+        .catch((e: any) => void res.status(404).json({ error: e.message }));
     } catch (e: any) {
       if (e.status || (e.status >= 400 && e.status <= 499)) {
         return void res.status(e.status).json({ error: e.message });

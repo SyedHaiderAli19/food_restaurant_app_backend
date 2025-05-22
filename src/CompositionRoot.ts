@@ -15,13 +15,26 @@ export default class CompositionRoot {
 
   public static async configure() {
     this.client = new mongoose.Mongoose();
-    this.redisClient = createClient();
+
+    //Redis Cloud Connection
+    this.redisClient = createClient({
+      username: process.env.REDIS_USERNAME as string,
+      password: process.env.REDIS_PASSWORD as string,
+      socket: {
+        host: process.env.REDIS_HOST as string,
+        port: parseInt(process.env.REDIS_PORT as string, 10),
+      },
+    });
+
     this.redisClient.on("error", (err) =>
       console.error("Redis Client Error", err)
     );
+
     await this.redisClient.connect();
+
+    // MongoDB connection
     const connectionString = encodeURI(process.env.DEV_DB as string);
-    this.client.connect(connectionString);
+    await this.client.connect(connectionString);
   }
 
   public static authRouter() {

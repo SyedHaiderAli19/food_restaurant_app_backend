@@ -62,7 +62,7 @@ export default class RestaurantRepository implements IRestaurantRepository {
             type: "Point",
             coordinates: [location.longitude, location.latitude],
           },
-          $maxDistance: 2,
+          $maxDistance: 2000,
         },
       },
     };
@@ -87,8 +87,9 @@ export default class RestaurantRepository implements IRestaurantRepository {
 
     const pageOptions = { page: pageNo, limit: limit };
 
-    const textQuery = { $text: { $search: searchQuery } };
-
+    const textQuery = {
+      name: { $regex: searchQuery, $options: "i" },
+    };
     const pageResults = await model
       .paginate(textQuery, pageOptions)
       .catch((err) => null);
